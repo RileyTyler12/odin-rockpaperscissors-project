@@ -1,11 +1,7 @@
 //Written by Riley Tyler
 
-//Initial Variables
-let humanScore = 0;
-let computerScore = 0;
 
 //Functions
-//
 
 //getComputerChoice Function
 function getComputerChoice() {
@@ -31,56 +27,91 @@ function getHumanChoice() {
     return choice;
 }
 
-//playRound Function
-function playRound(humanChoice, computerChoice) {
-    let playerChoice = humanChoice.toLowerCase(); //toLowerCase to be case insensitive
-    let winner;
+//Play Game Function
+function playGame() {
+    //Score Variables
+    let humanScore = 0;
+    let computerScore = 0;
 
-    if (playerChoice === computerChoice) { //Determine Results
-        winner = "tie";
+    //Game Loop for 5 rounds then declare game winner
+    let roundNum = 1;
+    while (roundNum <= 5) {
+        const humanSelection = getHumanChoice();
+        const computerSelection = getComputerChoice();
+
+        playRound(humanSelection, computerSelection);
+
+        //Announce Current Round and Scores
+        console.log("End of round " + roundNum);
+        console.log("Human Score: " + humanScore);
+        console.log("Computer Score: " + computerScore);
+
+        roundNum++;
+    }
+    if (humanScore === computerScore) {
+        console.log("Game tied! Your score is " + humanScore + ". Computer score is " + computerScore + ".")
     }
     else {
-        switch(playerChoice) {
-            case "rock":
-                if (computerChoice === "scissors") {
-                    winner = "player";
-                }
-                else {
-                    winner = "computer";
-                }
-                break;
-            case "scissors":
-                if (computerChoice === "paper") {
-                    winner = "player";
-                }
-                else {
-                    winner = "computer";
-                }
-                break;
-            case "paper":
-                if (computerChoice === "rock") {
-                    winner = "player";
-                }
-                else {
-                    winner = "computer";
-                }
-                break;
+        if (humanScore > computerScore) {
+            console.log("You win the game! Your score is " + humanScore + ". Computer score is " + computerScore + ".")
+        }
+        else {
+            console.log("You lose the game! Your score is " + humanScore + ". Computer score is " + computerScore + ".")
         }
     }
 
-    switch(winner) { //Announce Winner
-        case "tie":
-            console.log("You tied this round! Try again.");
-            break;
-        case "player":
-            console.log("You win this round! Because " + playerChoice + " beats " + computerChoice + ".");
-            humanScore++;
-            break;
-        case "computer":
-            console.log("You lose this round! Because " + computerChoice + " beats " + playerChoice + ".");
-            computerScore++
-            break;
+    //playRound Function
+    function playRound(humanChoice, computerChoice) {
+        let playerChoice = humanChoice.toLowerCase(); //toLowerCase to be case insensitive
+        let winner;
+
+        if (playerChoice === computerChoice) { //Determine Results
+            winner = "tie";
+        }
+        else {
+            switch(playerChoice) {
+                case "rock":
+                    if (computerChoice === "scissors") {
+                        winner = "player";
+                    }
+                    else {
+                        winner = "computer";
+                    }
+                    break;
+                case "scissors":
+                    if (computerChoice === "paper") {
+                        winner = "player";
+                    }
+                    else {
+                        winner = "computer";
+                    }
+                    break;
+                case "paper":
+                    if (computerChoice === "rock") {
+                        winner = "player";
+                    }
+                    else {
+                        winner = "computer";
+                    }
+                    break;
+            }
+        }
+
+        switch(winner) { //Announce Winner
+            case "tie":
+                console.log("You tied this round! Try again.");
+                break;
+            case "player":
+                console.log("You win this round! Because " + playerChoice + " beats " + computerChoice + ".");
+                humanScore++;
+                break;
+            case "computer":
+                console.log("You lose this round! Because " + computerChoice + " beats " + playerChoice + ".");
+                computerScore++
+                break;
+        }
     }
 }
 
-//Start Game
+//Start the game by calling playGame function
+playGame();
