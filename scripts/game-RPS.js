@@ -1,7 +1,37 @@
 //Written by Riley Tyler
+"use strict";
 
+//Score and Game Variables
+let humanScore = 0;
+let computerScore = 0;
+let roundNum = 1;
+let winnnerChosen = false;
+
+//Setup Event Listeners
+let elementIDs = ["Rock", "Paper", "Scissors"];
+elementIDs.forEach(element => {
+    document.getElementById(element).addEventListener("click", (event) => {
+        playRound(element, getComputerChoice());
+    });
+});
 
 //Functions
+
+function setResultsDisplayText(string, reset) {
+    let resultsElement = document.getElementById("results");
+    if(reset) {
+        resultsElement.innerHTMl = "";
+        let textElement = document.createElement("p");
+        textElement.textContent = string;
+        resultsElement.appendChild(textElement);
+
+    }
+    else {
+        let textElement = document.createElement("p");
+        textElement.textContent = string;
+        resultsElement.appendChild(textElement);
+    }
+}
 
 //getComputerChoice Function
 function getComputerChoice() {
@@ -21,97 +51,87 @@ function getComputerChoice() {
     return choice;
 }
 
-//getHumanChoice Function
-function getHumanChoice() {
-    let choice = prompt("Rock, Paper, Scissors! What is your choice?");
-    return choice;
+//Announce current scores function
+function announceCurrentScores() {
+    //Announce Current Round and Scores
+    setResultsDisplayText("End of round " + roundNum);
+    setResultsDisplayText("Human Score: " + humanScore);
+    setResultsDisplayText("Computer Score: " + computerScore);
 }
 
-//Play Game Function
-function playGame() {
-    //Score Variables
-    let humanScore = 0;
-    let computerScore = 0;
-
-    //Game Loop for 5 rounds then declare game winner
-    let roundNum = 1;
-    while (roundNum <= 5) {
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
-
-        playRound(humanSelection, computerSelection);
-
-        //Announce Current Round and Scores
-        console.log("End of round " + roundNum);
-        console.log("Human Score: " + humanScore);
-        console.log("Computer Score: " + computerScore);
-
-        roundNum++;
-    }
+//Announce ending and winning game scores function
+function announceEndingScores() {
     if (humanScore === computerScore) {
-        console.log("Game tied! Your score is " + humanScore + ". Computer score is " + computerScore + ".")
+        setResultsDisplayText("Game tied! Your score is " + humanScore + ". Computer score is " + computerScore + ".", true)
     }
     else {
         if (humanScore > computerScore) {
-            console.log("You win the game! Your score is " + humanScore + ". Computer score is " + computerScore + ".")
+            setResultsDisplayText("You win the game! Your score is " + humanScore + ". Computer score is " + computerScore + ".", true)
         }
         else {
-            console.log("You lose the game! Your score is " + humanScore + ". Computer score is " + computerScore + ".")
-        }
-    }
-
-    //playRound Function
-    function playRound(humanChoice, computerChoice) {
-        let playerChoice = humanChoice.toLowerCase(); //toLowerCase to be case insensitive
-        let winner;
-
-        if (playerChoice === computerChoice) { //Determine Results
-            winner = "tie";
-        }
-        else {
-            switch(playerChoice) {
-                case "rock":
-                    if (computerChoice === "scissors") {
-                        winner = "player";
-                    }
-                    else {
-                        winner = "computer";
-                    }
-                    break;
-                case "scissors":
-                    if (computerChoice === "paper") {
-                        winner = "player";
-                    }
-                    else {
-                        winner = "computer";
-                    }
-                    break;
-                case "paper":
-                    if (computerChoice === "rock") {
-                        winner = "player";
-                    }
-                    else {
-                        winner = "computer";
-                    }
-                    break;
-            }
-        }
-
-        switch(winner) { //Announce Winner
-            case "tie":
-                console.log("You tied this round! Try again.");
-                break;
-            case "player":
-                console.log("You win this round! Because " + playerChoice + " beats " + computerChoice + ".");
-                humanScore++;
-                break;
-            case "computer":
-                console.log("You lose this round! Because " + computerChoice + " beats " + playerChoice + ".");
-                computerScore++
-                break;
+            setResultsDisplayText("You lose the game! Your score is " + humanScore + ". Computer score is " + computerScore + ".", true)
         }
     }
 }
 
-//Start the game by calling playGame function
-playGame();
+//playRound Function
+function playRound(humanChoice, computerChoice) {
+    let playerChoice = humanChoice.toLowerCase(); //toLowerCase to be case insensitive
+    let winner;
+
+    if (playerChoice === computerChoice) { //Determine Results
+        winner = "tie";
+    }
+    else {
+        switch(playerChoice) {
+            case "rock":
+                if (computerChoice === "scissors") {
+                    winner = "player";
+                }
+                else {
+                    winner = "computer";
+                }
+                break;
+            case "scissors":
+                if (computerChoice === "paper") {
+                    winner = "player";
+                }
+                else {
+                    winner = "computer";
+                }
+                break;
+            case "paper":
+                if (computerChoice === "rock") {
+                    winner = "player";
+                }
+                else {
+                    winner = "computer";
+                }
+                break;
+        }
+    }
+
+    switch(winner) { //Announce Winner
+        case "tie":
+            setResultsDisplayText("You tied this round! Try again.", true);
+            break;
+        case "player":
+            setResultsDisplayText("You win this round! Because " + playerChoice + " beats " + computerChoice + ".", true);
+            humanScore++;
+            break;
+        case "computer":
+            setResultsDisplayText("You lose this round! Because " + computerChoice + " beats " + playerChoice + ".", true);
+            computerScore++
+            break;
+    }
+
+    //Increment round number
+    roundNum++;
+
+    //Call Announce Function
+    announceCurrentScores();
+
+    if (humanScore === 5 || computerScore === 5) {
+        announceEndingScores();
+    }
+}
