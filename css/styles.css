@@ -1,0 +1,47 @@
+/*
+Rock Paper Scissors Game Styles
+*/
+
+/* CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: 0;
+}
+
+/* General Styles */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color:aliceblue;
+    background-color: darkslategray;
+}
+
+#main-container {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+}
+
+#results {
+    margin: 6%;
+}
+
+.game-button {
+    font-size: 1.5em;
+    padding: 2%;
+    border: none;
+    border-radius: 8px;
+    background-color:aliceblue;
+    transition: 0.5s;
+}
+
+.game-button:hover {
+    font-size: 1.6em;
+    border-radius: 6px;
+    background-color:deepskyblue;
+    transition: 0.5s;
+}
