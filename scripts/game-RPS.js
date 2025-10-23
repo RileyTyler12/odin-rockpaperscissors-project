@@ -4,7 +4,7 @@
 //Score and Game Variables
 let humanScore = 0;
 let computerScore = 0;
-let roundNum = 1;
+let roundNum = 0;
 let winnnerChosen = false;
 
 //Setup Event Listeners
@@ -20,7 +20,7 @@ elementIDs.forEach(element => {
 function setResultsDisplayText(string, reset) {
     let resultsElement = document.getElementById("results");
     if(reset) {
-        resultsElement.innerHTMl = "";
+        resultsElement.replaceChildren("");
         let textElement = document.createElement("p");
         textElement.textContent = string;
         resultsElement.appendChild(textElement);
@@ -72,6 +72,10 @@ function announceEndingScores() {
             setResultsDisplayText("You lose the game! Your score is " + humanScore + ". Computer score is " + computerScore + ".", true)
         }
     }
+    setResultsDisplayText("Refresh Page to Restart Game")
+
+    //Hide buttons since game is over
+    document.getElementById("buttons").style.visibility = "hidden";
 }
 
 //playRound Function
